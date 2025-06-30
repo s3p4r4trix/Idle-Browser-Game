@@ -20,6 +20,7 @@ export interface Essence {
 export interface Character {
   name: string;
   rank: Rank;
+  attributes: Attribute[];
   essences: Essence[];
   inventory: Inventory;
 }
