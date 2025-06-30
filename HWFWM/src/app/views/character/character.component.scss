@@ -1,0 +1,9 @@
+.attribute-container {
+  display: grid;
+}
+
+.attribute-item {
+  display: flex;
+  grid-gap: 5px;
+  align-items: center;
+}
