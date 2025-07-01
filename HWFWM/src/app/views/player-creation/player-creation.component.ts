@@ -1,11 +1,11 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
-import { Router } from '@angular/router';
-import { Character, Essence, Attribute } from '../../models/character.model';
-import { ESSENCE_LIST, Rarity } from '../../models/essence.model';
+import {Router} from '@angular/router';
+import {Attribute, Character, Essence} from '../../models/character.model';
+import {ESSENCE_LIST, Rarity} from '../../models/essence.model';
 import {MatFormField, MatLabel, MatSelect} from '@angular/material/select';
 import {MatOption} from '@angular/material/core';
 import {MatInput} from '@angular/material/input';
-import {ReactiveFormsModule} from '@angular/forms';
+import {MatButton} from '@angular/material/button';
 
 @Component({
   selector: 'app-player-creation',
@@ -16,12 +16,13 @@ import {ReactiveFormsModule} from '@angular/forms';
     MatFormField,
     MatLabel,
     MatInput,
+    MatButton,
   ],
   styleUrls: ['./player-creation.component.scss']
 })
 export class PlayerCreationComponent implements OnInit {
   router = inject(Router);
-  playerName: string = '';
+  playerName = '';
   selectedEssenceName = signal('');
   availableEssences = signal(['']);
 
@@ -38,7 +39,7 @@ export class PlayerCreationComponent implements OnInit {
   }
 
   createCharacter(): void {
-    if (!this.playerName.trim()) {
+    if (!this.playerName) {
       alert('Please enter a character name.');
       return;
     }
@@ -63,7 +64,7 @@ export class PlayerCreationComponent implements OnInit {
 
     // Create the character object
     const newCharacter: Character = {
-      name: this.playerName.trim(),
+      name: this.playerName,
       rank: 'Mortal', // Starting rank for characters
       essences: [newEssence],
       attributes: characterAttributes,
@@ -94,15 +95,16 @@ export class PlayerCreationComponent implements OnInit {
     // TODO: Navigate to the next view (e.g., character sheet or game start)
     // Example: this.router.navigate(['/character', newCharacter.name]); // Or some ID
     alert(`Character ${newCharacter.name} created with ${newEssence.name} bound to ${characterAttributes[randomIndex].name}!`);
-
-    // Reset form
-    this.playerName = '';
-    this.selectedEssenceName.set('');
   }
 
-  setSelection(event: any): void {
-    console.log('Selected Character ', event);
-    this.selectedEssenceName.set(event);
+  setSelection(essence: string): void {
+    console.log(essence);
+    this.selectedEssenceName.set(essence);
+  }
+
+  setName(name: string): void {
+    console.log(name);
+    this.playerName = name;
   }
 
   #prepareEssenceList(): void {

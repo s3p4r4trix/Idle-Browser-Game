@@ -2,24 +2,24 @@
 <!-- Name Input -->
 <form>
 <mat-form-field>
-  <mat-label>Name:</mat-label>
-  <input matInput type="text" id="playerName" name="playerName">
+  <mat-label>Name</mat-label>
+  <input matInput #name (keyup)="setName(name.value)" type="text">
 </mat-form-field>
 
 <!-- Essence Selection -->
 <div>
   <mat-form-field>
-  <label for="essenceSelect">Starting Essence:</label>
-  <mat-select (selectionchange)="setSelection($event)">
-    @for (essence of availableEssences(); track essence) {
-      <mat-option [value]="essence">{{ essence }}</mat-option>
-    }
-  </mat-select>
+    <mat-label>Starting Essence</mat-label>
+    <mat-select #select (selectionchange)="setSelection(select.value)">
+      @for (essence of availableEssences(); track essence) {
+        <mat-option [value]="essence">{{ essence }}</mat-option>
+      }
+    </mat-select>
   </mat-form-field>
 </div>
 
 <!-- Create Button -->
 <div>
-  <button (click)="createCharacter()">Create Character</button>
+  <button matButton="filled" (click)="createCharacter()">Create Character</button>
 </div>
 </form>

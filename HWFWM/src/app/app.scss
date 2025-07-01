@@ -1,0 +1,23 @@
+.navigation-container {
+  display: flex;
+}
+
+mat-nav-list {
+  display: flex;
+
+  a {
+    width: 100%;
+  }
+}
+
+button {
+  margin: 5px 5px;
+}
+
+.toggle {
+  margin-left: auto;
+}
+
+.active {
+  //background-color: aqua;
+}

@@ -1,11 +1,9 @@
-<nav>
-  <ul>
-    <li><a routerLink="/character">Character</a></li>
-    <li><a routerLink="/create-character">Create New Character</a></li>
-    <!-- Add other navigation links here as needed -->
-  </ul>
-</nav>
+<div class="navigation-container">
+  <button matButton routerLinkActive="active" routerLink="/character">Character</button>
+  <button matButton routerLinkActive="active" routerLink="/create-character">New Character</button>
 
+  <button class="toggle" matButton="elevated" (click)="toggleTheme()">{{ buttonText }}</button>
+</div>
 <hr>
 
 <router-outlet />
