@@ -1,10 +1,14 @@
-<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Defining a gradient for the core -->
   <defs>
-    <linearGradient id="potentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <radialGradient id="potentGradient" cx="50%" cy="50%" r="50%">
       <stop offset="0%" style="stop-color:#FF00FF;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#C71585;stop-opacity:1" />
-    </linearGradient>
+      <stop offset="100%" style="stop-color:#4B0082;stop-opacity:0.8" />
+    </radialGradient>
   </defs>
-  <circle cx="50" cy="50" r="40" fill="url(#potentGrad)" />
-  <path d="M50 20 V80 M20 50 H80" fill="none" stroke="#FFFFFF" stroke-width="5" />
+  <!-- Energy core -->
+  <circle cx="100" cy="100" r="30" fill="url(#potentGradient)" />
+  <!-- Geometric cage -->
+  <path d="M60,60 H140 V140 H60 Z" stroke="#333333" stroke-width="4" fill="none" />
+  <path d="M60,100 H140 M100,60 V140" stroke="#333333" stroke-width="2" fill="none" />
 </svg>

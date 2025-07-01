@@ -1,10 +1,13 @@
-<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Defining a gradient for the snowflake -->
   <defs>
-    <linearGradient id="iceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#E6E6FA;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#ADD8E6;stop-opacity:1" />
-    </linearGradient>
+    <radialGradient id="iceGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#E0FFFF;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#4682B4;stop-opacity:0.7" />
+    </radialGradient>
   </defs>
-  <polygon points="50,20 80,50 50,80 20,50" fill="url(#iceGrad)" />
-  <path d="M50 30 L50 70 M30 50 H70" fill="none" stroke="#FFFFFF" stroke-width="5" />
+  <!-- Snowflake pattern -->
+  <path d="M100,40 V160 M40,100 H160 M60,60 L140,140 M60,140 L140,60" stroke="url(#iceGradient)" stroke-width="3" fill="none" />
+  <!-- Frost effect -->
+  <circle cx="100" cy="100" r="90" fill="none" stroke="#E0FFFF" stroke-width="2" opacity="0.4" />
 </svg>

@@ -56,16 +56,13 @@ h2 {
 
   &:hover {
     transform: translateY(-5px) scale(1.03);
-
     box-shadow: var(--md-sys-elevation-level2, 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23));
     border-color: var(--mdc-theme-outline);
   }
 
   &.selected {
     border-color: var(--mdc-theme-primary);
-
-    box-shadow: 0 0 0 2px var(--mdc-theme-primary),
-    var(--md-sys-elevation-level3, 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12), 0 3px 5px -1px rgba(0,0,0,0.2));
+    box-shadow: var(--md-sys-elevation-level2, 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23));
     transform: translateY(-2px) scale(1.01);
     background-color: var(--mdc-theme-surface-container-high);
   }

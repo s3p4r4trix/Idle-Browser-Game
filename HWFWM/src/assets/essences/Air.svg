@@ -1,10 +1,17 @@
-<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Defining a gradient for the ethereal blue effect -->
   <defs>
-    <linearGradient id="airGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#E0FFFF;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#87CEEB;stop-opacity:1" />
-    </linearGradient>
+    <radialGradient id="airGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#E6F0FA;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#B3D4FC;stop-opacity:0.3" />
+    </radialGradient>
   </defs>
-  <circle cx="50" cy="50" r="40" fill="url(#airGrad)" />
-  <path d="M30 50 Q50 30 70 50 Q50 70 30 50" fill="none" stroke="#FFFFFF" stroke-width="5" />
+  <!-- Background circle for context -->
+  <circle cx="100" cy="100" r="90" fill="url(#airGradient)" />
+  <!-- Swirling vortex lines -->
+  <path d="M100,100 C120,80 140,80 160,100 C140,120 120,120 100,100 C80,80 60,80 40,100 C60,120 80,120 100,100" stroke="#E6F0FA" stroke-width="2" fill="none" opacity="0.7" />
+  <path d="M100,100 C130,70 150,70 170,100 C150,130 130,130 100,100 C70,70 50,70 30,100 C50,130 70,130 100,100" stroke="#B3D4FC" stroke-width="1.5" fill="none" opacity="0.5" />
+  <!-- Feather-like elements -->
+  <path d="M90,80 Q95,70 100,80 T110,80" stroke="#FFFFFF" stroke-width="1" fill="none" opacity="0.6" />
+  <path d="M110,120 Q115,110 120,120 T130,120" stroke="#FFFFFF" stroke-width="1" fill="none" opacity="0.6" />
 </svg>
