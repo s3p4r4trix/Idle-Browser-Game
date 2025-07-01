@@ -1,25 +1,42 @@
 <h2>Create Your Character</h2>
-<!-- Name Input -->
-<form>
-<mat-form-field>
-  <mat-label>Name</mat-label>
-  <input matInput #name (keyup)="setName(name.value)" type="text">
-</mat-form-field>
+<form (submit)="$event.preventDefault(); createCharacter()">
 
-<!-- Essence Selection -->
-<div>
-  <mat-form-field>
-    <mat-label>Starting Essence</mat-label>
-    <mat-select #select (selectionchange)="setSelection(select.value)">
-      @for (essence of availableEssences(); track essence) {
-        <mat-option [value]="essence">{{ essence }}</mat-option>
-      }
-    </mat-select>
+  <!-- Name Input -->
+  <mat-form-field class="form-field">
+    <mat-label>Name</mat-label>
+    <input matInput #name (keyup)="setName(name.value)" type="text" required>
   </mat-form-field>
-</div>
 
-<!-- Create Button -->
-<div>
-  <button matButton="filled" (click)="createCharacter()">Create Character</button>
-</div>
+  <!-- Essence Selection Cards -->
+  <div class="essence-selection-container">
+    <h3>Choose an Essence</h3>
+    @if (selectableEssences().length > 0) {
+      <div class="essence-cards-wrapper">
+        @for (essence of selectableEssences(); track essence.name) {
+          <div
+            class="essence-card"
+            (click)="setSelection(essence)"
+            [class.selected]="selectedEssenceName() === essence.name"
+            tabindex="0"
+            (keydown.enter)="setSelection(essence)"
+            (keydown.space)="setSelection(essence)">
+            <img [src]="essence.logoPath" [alt]="essence.name + ' Logo'" class="essence-logo">
+            <h4 class="essence-name">{{ essence.name }}</h4>
+            <p class="essence-rarity">Rarity: {{ essence.rarity }}</p>
+            <p class="essence-description">{{ essence.description }}</p>
+          </div>
+        }
+      </div>
+    } @else {
+      <p>Loading essences or no essences available...</p>
+    }
+  </div>
+
+  <!-- Create Button -->
+  <div class="create-button-container">
+    <button mat-raised-button color="primary" type="submit" [disabled]="!playerName || !selectedEssenceName()">
+      Create Character
+    </button>
+  </div>
+
 </form>

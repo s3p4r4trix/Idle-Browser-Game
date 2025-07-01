@@ -1,30 +1,32 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
 import {Router} from '@angular/router';
 import {Attribute, Character, Essence} from '../../models/character.model';
-import {ESSENCE_LIST, Rarity} from '../../models/essence.model';
-import {MatFormField, MatLabel, MatSelect} from '@angular/material/select';
-import {MatOption} from '@angular/material/core';
+import {ESSENCE_LIST, EssenceDetail, Rarity} from '../../models/essence.model'; // Added EssenceDetail
+import {MatFormField, MatLabel} from '@angular/material/form-field'; // MatSelect and MatOption removed for now
 import {MatInput} from '@angular/material/input';
 import {MatButton} from '@angular/material/button';
+// Import CommonModule for @for if not using standalone components with it already
+import {CommonModule} from '@angular/common';
 
 @Component({
   selector: 'app-player-creation',
   templateUrl: './player-creation.component.html',
+  standalone: true, // Assuming it might be standalone, add CommonModule to imports
   imports: [
-    MatSelect,
-    MatOption,
+    CommonModule, // Needed for @for if standalone and not otherwise imported
     MatFormField,
     MatLabel,
     MatInput,
     MatButton,
+    // MatSelect and MatOption are removed as we are replacing the dropdown
   ],
   styleUrls: ['./player-creation.component.scss']
 })
 export class PlayerCreationComponent implements OnInit {
   router = inject(Router);
   playerName = '';
-  selectedEssenceName = signal('');
-  availableEssences = signal(['']);
+  selectedEssenceName = signal(''); // Stores the name of the selected essence
+  selectableEssences = signal<EssenceDetail[]>([]); // Stores 3 random EssenceDetail objects
 
   // Define attributes for a new character
   private defaultAttributes: Attribute[] = [
@@ -35,7 +37,7 @@ export class PlayerCreationComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.#prepareEssenceList();
+    this.#prepareSelectableEssences();
   }
 
   createCharacter(): void {
@@ -48,15 +50,15 @@ export class PlayerCreationComponent implements OnInit {
       return;
     }
 
-    // Create the new essence object
+    // Create the new essence object for the Character model
     const newEssence: Essence = {
-      name: this.selectedEssenceName(),
+      name: this.selectedEssenceName(), // Use the name from the selected EssenceDetail
       rank: 'Mortal', // Starting rank for essences
       abilities: [] // TODO: Define how initial abilities are populated, if any
     };
 
     // Create a fresh copy of default attributes for this character
-    const characterAttributes: Attribute[] = [...this.defaultAttributes];
+    const characterAttributes: Attribute[] = JSON.parse(JSON.stringify(this.defaultAttributes));
 
     // Randomly assign the new essence to one attribute
     const randomIndex = Math.floor(Math.random() * characterAttributes.length);
@@ -66,7 +68,7 @@ export class PlayerCreationComponent implements OnInit {
     const newCharacter: Character = {
       name: this.playerName,
       rank: 'Mortal', // Starting rank for characters
-      essences: [newEssence],
+      essences: [newEssence], // Store the Character model's Essence type
       attributes: characterAttributes,
       inventory: { // Initialize empty or default inventory
         awakeningStones: [],
@@ -85,35 +87,47 @@ export class PlayerCreationComponent implements OnInit {
       }
     };
 
-    // For now, log the character to the console.
-    // Later, this would involve saving to a service and navigating.
     console.log('New Character Created:', newCharacter);
     console.log('Attributes with bound essence:', characterAttributes);
 
-
+    alert(`Character ${newCharacter.name} created with ${newEssence.name} bound to ${characterAttributes[randomIndex].name}!`);
     // TODO: Implement character saving (e.g., via a service)
     // TODO: Navigate to the next view (e.g., character sheet or game start)
-    // Example: this.router.navigate(['/character', newCharacter.name]); // Or some ID
-    alert(`Character ${newCharacter.name} created with ${newEssence.name} bound to ${characterAttributes[randomIndex].name}!`);
   }
 
-  setSelection(essence: string): void {
-    console.log(essence);
-    this.selectedEssenceName.set(essence);
+  setSelection(essence: EssenceDetail): void {
+    console.log('Selected Essence:', essence.name);
+    this.selectedEssenceName.set(essence.name);
   }
 
   setName(name: string): void {
-    console.log(name);
+    console.log('Player Name:', name);
     this.playerName = name;
   }
 
-  #prepareEssenceList(): void {
-    const allEssences: string[] = [];
-    for (const rarity in ESSENCE_LIST) {
-      if (ESSENCE_LIST.hasOwnProperty(rarity)) {
-        allEssences.push(...ESSENCE_LIST[rarity as Rarity]);
+  #prepareSelectableEssences(): void {
+    const allEssenceDetails: EssenceDetail[] = [];
+    for (const rarityKey in ESSENCE_LIST) {
+      if (ESSENCE_LIST.hasOwnProperty(rarityKey)) {
+        const rarity = rarityKey as Rarity;
+        allEssenceDetails.push(...ESSENCE_LIST[rarity]);
       }
     }
-    this.availableEssences.set(allEssences.sort());
+
+    if (allEssenceDetails.length === 0) {
+      console.error("No essences available to choose from.");
+      this.selectableEssences.set([]);
+      return;
+    }
+
+    // Shuffle the array
+    for (let i = allEssenceDetails.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [allEssenceDetails[i], allEssenceDetails[j]] = [allEssenceDetails[j], allEssenceDetails[i]];
+    }
+
+    // Pick the first 3 (or fewer if not enough essences)
+    this.selectableEssences.set(allEssenceDetails.slice(0, Math.min(3, allEssenceDetails.length)));
+    console.log('Selectable Essences:', this.selectableEssences());
   }
 }
